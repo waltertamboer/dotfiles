@@ -2,43 +2,85 @@ set nocompatible              " be iMproved, required
 filetype off                  " required
 
 " set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-" alternatively, pass a path where Vundle should install plugins
-"call vundle#begin('~/some/path/here')
+set rtp+=~/.vim/bundle/vundle/
+call vundle#rc()
+"{{{ Vundle Bundles!
+if exists(':Bundle')
+    Bundle 'Syntastic'
+"    Bundle 'joonty/vim-phpqa.git'
+    Bundle "scrooloose/nerdtree"
+    Bundle "jistr/vim-nerdtree-tabs"
+    Bundle "benmills/vimux"
+    Bundle "bling/vim-airline"
+end
+"}}}
 
-" let Vundle manage Vundle, required
-Plugin 'VundleVim/Vundle.vim'
+set tabstop=4       " numbers of spaces of tab character
+set number          " show line numbers
+set expandtab      " tabs are converted to spaces, use only when required
+syntax on           " syntax highlighing
 
-" The following are examples of different formats supported.
-" Keep Plugin commands between vundle#begin/end.
-" plugin on GitHub repo
-Plugin 'tpope/vim-fugitive'
-" plugin from http://vim-scripts.org/vim/scripts.html
-Plugin 'L9'
-" Git plugin not hosted on GitHub
-Plugin 'git://git.wincent.com/command-t.git'
-" git repos on your local machine (i.e. when working on your own plugin)
-Plugin 'file:///home/gmarik/path/to/plugin'
-" The sparkup vim script is in a subdirectory of this repo called vim.
-" Pass the path to set the runtimepath properly.
-Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
-" Install L9 and avoid a Naming conflict if you've already installed a
-" different version somewhere else.
-Plugin 'ascenator/L9', {'name': 'newL9'}
+set wildmenu
+set showcmd
+set undodir=~/.vim/.undo//
+set backupdir=~/.vim/.backup//
+set directory=~/.vim/.swp//
 
-" All of your Plugins must be added before the following line
-call vundle#end()            " required
-filetype plugin indent on    " required
-" To ignore plugin indent changes, instead use:
-"filetype plugin on
-"
-" Brief help
-" :PluginList       - lists configured plugins
-" :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate
-" :PluginSearch foo - searches for foo; append `!` to refresh local cache
-" :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
-"
-" see :h vundle for more details or wiki for FAQ
-" Put your non-Plugin stuff after this line
+" auto indent as current line
+set autoindent
 
+" <leader> is , instead of \
+let mapleader = ","
+
+" Map to avoid hold shift to every command
+nnoremap ; :
+
+" Edit a write protected file after open
+cmap w!! w !sudo tee % >/dev/null
+
+let php_short_tags = 0
+let g:phpqa_codesniffer_args = "--standard=PSR2"
+
+" airline
+set laststatus=2
+let g:airline_powerline_fonts = 1
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#buffer_nr_show = 1
+
+" ===============================================================
+" Navigation Stuff
+
+" Window navigation
+nnoremap <leader>\| <c-w>v<c-w>l
+nnoremap <leader>- <c-w>s<c-w>j
+nnoremap <c-h> <c-w>h
+nnoremap <c-j> <c-w>j
+nnoremap <c-k> <c-w>k
+nnoremap <c-l> <c-w>l
+
+" Resize windows
+nnoremap <c-b> 5<c-w><
+nnoremap <c-n> 5<c-w>>
+
+nnoremap + 5<c-w>+
+nnoremap _ 5<c-w>-
+
+" Tab navigation
+map <F2> :NERDTreeToggle<cr>
+nnoremap <s-l> :bnext<cr>
+nnoremap <s-h> :bprevious<cr>
+nnoremap <s-n> :tabnew<cr>
+
+
+nnoremap <Leader>1 :1b<CR>
+nnoremap <Leader>2 :2b<CR>
+nnoremap <Leader>3 :3b<CR>
+nnoremap <Leader>4 :4b<CR>
+nnoremap <Leader>5 :5b<CR>
+nnoremap <Leader>6 :6b<CR>
+nnoremap <Leader>7 :7b<CR>
+nnoremap <Leader>8 :8b<CR>
+nnoremap <Leader>9 :9b<CR>
+nnoremap <Leader>0 :10b<CR>
+
+" ===============================================================
