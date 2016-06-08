@@ -1,0 +1,14 @@
+[user]
+	name = Walter Tamboer
+	email = walter@tamboer.nl
+[core]
+	autocrlf = input
+	editor = vim
+	excludesfile = ~/.gitignore-global
+	preloadindex = true
+[color]
+	ui = true
+[push]
+	default = simple
+[init]
+	templatedir = ~/.git-templates
