@@ -13,3 +13,6 @@ fi
 
 source "$HOME/.homesick/repos/homeshick/homeshick.sh"
 source "$HOME/.homesick/repos/homeshick/completions/homeshick-completion.bash"
+source "$HOME/.homesick/repos/waltertamboer/home/.git-prompt.sh"
+
+export PS1='\[\033[01;32m\]\u@\h\[\033[00m\] \W$(__git_ps1 " (%s)")\[\033[00m\] \$ '
