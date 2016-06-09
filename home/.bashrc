@@ -11,8 +11,19 @@ fi
 
 # User specific aliases and functions
 
+# Colors (http://www.tldp.org/HOWTO/Bash-Prompt-HOWTO/x329.html)
+blue="\033[0;34m"
+white="\033[0;37m"
+
+# Brackets needed around non-printable characters in PS1
+ps1_blue='\['"$blue"'\]'
+ps1_white='\['"$white"'\]'
+
 source "$HOME/.homesick/repos/homeshick/homeshick.sh"
 source "$HOME/.homesick/repos/homeshick/completions/homeshick-completion.bash"
 source "$HOME/.homesick/repos/waltertamboer/home/.git-prompt.sh"
 
-export PS1='\[\033[01;32m\]\u@\h\[\033[00m\] \W$(__git_ps1 " (%s)")\[\033[00m\] \$ '
+export GIT_PS1_SHOWCOLORHINTS=1
+export GIT_PS1_SHOWDIRTYSTATE=1
+export PROMPT_COMMAND='__git_ps1 "$ps1_blue\u@\h$ps1_white \W" " \\\$ "'
+
