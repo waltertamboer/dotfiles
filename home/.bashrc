@@ -27,3 +27,9 @@ export GIT_PS1_SHOWCOLORHINTS=1
 export GIT_PS1_SHOWDIRTYSTATE=1
 export PROMPT_COMMAND='__git_ps1 "$ps1_blue\u@\h$ps1_white \W" " \\\$ "'
 
+# When NVM is installed, we load it.
+[ -s "$HOME/.nvm/nvm.sh" ] && . "$HOME/.nvm/nvm.sh"
+
+# Add Composer to the path
+PATH=$PATH:/home/tamboer/.composer/vendor/bin/
+export PATH
