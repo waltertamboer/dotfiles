@@ -33,3 +33,16 @@ export PROMPT_COMMAND='__git_ps1 "$ps1_blue\u@\h$ps1_white \W" " \\\$ "'
 # Add Composer to the path
 PATH=$PATH:/home/tamboer/.composer/vendor/bin/
 export PATH
+
+# Initialize phpbrew if it is installed
+export PHPBREW_SET_PROMPT=1
+export PHPBREW_RC_ENABLE=1
+[ -f "$HOME/.phpbrew/bashrc" ] && source "$HOME/.phpbrew/bashrc"
+
+# Add Android Studio to the path
+PATH=$PATH:/opt/android-studio/bin/
+export PATH
+
+# Java Home
+export JAVA_HOME="/etc/alternatives/java_sdk"
+
