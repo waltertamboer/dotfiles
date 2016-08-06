@@ -1,4 +1,7 @@
 #!/usr/bin/env bash
 
-echo -e 'AUTHENTICATE ""\r\nsignal NEWNYM\r\nQUIT' | nc 127.0.0.1 9051
+read -sp "Please enter your TOR password: " TOR_PASSWORD
+echo
+
+echo -e "AUTHENTICATE \"$TOR_PASSWORD\"\r\nsignal NEWNYM\r\nQUIT" | nc 127.0.0.1 9051
 
