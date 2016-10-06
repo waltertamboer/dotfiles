@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+if [ -z $1 ]; then
+	echo "The extension id is missing."
+	exit 1
+fi
+
+if [ -z $2 ]; then
+	echo "The target directory is missing."
+	exit 1
+fi
+
+cp -R "/home/$USER/.config/google-chrome/Default/Extensions/$1/" "$2"
+
