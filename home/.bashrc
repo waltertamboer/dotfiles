@@ -46,3 +46,6 @@ export PATH
 # Java Home
 export JAVA_HOME="/etc/alternatives/java_sdk"
 
+# An alias to pktool
+alias pktool='php $HOME/bin/pktool.phar'
+
