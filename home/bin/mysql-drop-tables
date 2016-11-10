@@ -1,0 +1,84 @@
+#!/bin/bash
+
+MYSQL=$(which mysql)
+AWK=$(which awk)
+GREP=$(which grep)
+
+FORCE=0
+
+MYSQL_HOST="localhost"
+MYSQL_USER="root"
+MYSQL_PASS="root"
+
+while [[ $# -gt 1 ]]
+do
+    key="$1"
+
+    case $key in
+        -h|--hostname)
+            MYSQL_HOST="$2"
+            shift
+        ;;
+        -u|--user)
+            MYSQL_USER="$2"
+            shift
+        ;;
+        -p|--password)
+            MYSQL_PASS="$2"
+            shift
+        ;;
+        -f|--force)
+            FORCE=1
+        ;;
+        *)
+            # unknown option
+        ;;
+    esac
+
+    shift
+done
+
+# The first argument is the name of the database:
+MYSQL_DB="$1"
+
+# Make sure the database has been provided:
+if [ "$MYSQL_DB" == "" ]
+then
+	echo "Error: No valid database provided."
+	exit 1
+fi
+
+# Make sure the user is sure that this should happen:
+if [ "$FORCE" == "0" ]
+then
+	read -p "Are you sure you want to drop all tables in the database $MYSQL_DB? " -n 1 -r
+	echo    # (optional) move to a new line
+	if [[ ! $REPLY =~ ^[Yy]$ ]]
+	then
+	    [[ "$0" = "$BASH_SOURCE" ]] && exit 1 || return 1 # handle exits from shell or function but don't exit interactive shell
+	fi
+fi
+
+# Make sure we can actually connect to the server:
+$MYSQL -u $MYSQL_USER -p$MYSQL_PASS -h $MYSQL_HOST -e "use $MYSQL_DB"  &>/dev/null
+if [ $? -ne 0 ]
+then
+	echo "Error: Cannot connect to the MySQL server!"
+	exit 1
+fi
+
+TABLES=$($MYSQL -u $MYSQL_USER -p$MYSQL_PASS -h $MYSQL_HOST $MYSQL_DB -e 'SHOW TABLES' | $AWK '{ print $1}' | $GREP -v '^Tables' )
+
+# Make sure the database contains tables:
+if [ "$TABLES" == "" ]
+then
+	echo "Error: The database \"$MYSQL_DB\" contains no tables!"
+	exit 3
+fi
+
+# Drop the tables:
+for t in $TABLES
+do
+	echo "Deleting table \"$t\" from database \"$MYSQL_DB\"..."
+	$MYSQL -u $MYSQL_USER -p$MYSQL_PASS -h $MYSQL_HOST $MYSQL_DB -e "SET foreign_key_checks = 0; DROP TABLE $t"
+done
