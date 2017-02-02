@@ -1,0 +1,11 @@
+#!/bin/bash
+
+GIT_TAG="$1"
+
+if [ "$GIT_TAG" == "" ]; then
+    echo "No tag specified."
+    exit 1
+fi
+
+git log "$GIT_TAG"..HEAD --oneline | grep "Merge branch"
+
