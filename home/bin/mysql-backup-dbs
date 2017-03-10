@@ -1,0 +1,73 @@
+#!/bin/bash
+
+MYSQL=$(which mysql)
+AWK=$(which awk)
+GREP=$(which grep)
+
+FORCE=0
+
+MYSQL_HOST="localhost"
+MYSQL_USER="root"
+MYSQL_PASS="root"
+
+while [[ $# -gt 1 ]]
+do
+    key="$1"
+
+    case $key in
+        -h|--hostname)
+            MYSQL_HOST="$2"
+            shift
+        ;;
+        -u|--user)
+            MYSQL_USER="$2"
+            shift
+        ;;
+        -p|--password)
+            MYSQL_PASS="$2"
+            shift
+        ;;
+        -f|--force)
+            FORCE=1
+        ;;
+        *)
+            # unknown option
+        ;;
+    esac
+
+    shift
+done
+
+# The first argument is the name of the database. This is optional.
+MYSQL_DB="$1"
+
+if [ "$MYSQL_USER" == "" ]; then
+    echo "No MySQL user provided."
+    exit 1
+fi
+
+if [ "$MYSQL_PASS" == "" ]; then
+    echo "No MySQL password provided."
+    exit 1
+fi
+
+function ExportDatabase() {
+    db="$1"
+
+    if [[ "$db" != "information_schema" ]] && [[ "$db" != "performance_schema" ]] && [[ "$db" != "mysql" ]] && [[ "$db" != _* ]] ; then
+        echo "Exporting database $1"
+
+        mysqldump -u $MYSQL_USER -p$MYSQL_PASS --databases $db > `date +%Y%m%d_%H%M%S`.$db.sql
+    fi
+}
+
+if [ "$1" == "" ]; then
+    DATABASES=`mysql -u $MYSQL_USER -p$MYSQL_PASS -e "SHOW DATABASES;" | tr -d "| " | grep -v Database`
+
+    for DB in $DATABASES; do
+        ExportDatabase "$DB"
+    done
+else
+    ExportDatabase "$MYSQL_DB"
+fi
+

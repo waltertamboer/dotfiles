@@ -62,11 +62,13 @@ export PHPBREW_RC_ENABLE=1
 
 # Add Android Studio to the path
 PATH=$PATH:/opt/android-studio/bin/
+
+# Android setup
+export ANDROID_HOME=~/Android/Sdk
+export PATH=${PATH}:${ANDROID_HOME}/tools
+export PATH=${PATH}:${ANDROID_HOME}/platform-tools
 export PATH
 
 # Java Home
 export JAVA_HOME="/etc/alternatives/java_sdk"
-
-# An alias to pktool
-alias pktool='php $HOME/bin/pktool.phar'
 

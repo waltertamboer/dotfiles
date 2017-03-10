@@ -1,11 +1,11 @@
 #!/bin/bash
 
-GIT_TAG="$1"
+GIT_VERSION="$1"
 
-if [ "$GIT_TAG" == "" ]; then
-    echo "No tag specified."
+if [ "$GIT_VERSION" == "" ]; then
+    echo "You must specify a version to compare."
     exit 1
 fi
 
-git log "$GIT_TAG"..HEAD --oneline | grep "Merge branch"
+git log "$GIT_VERSION"..HEAD --oneline | grep "Merge branch"
 
