@@ -21,7 +21,7 @@ ps1_white='\['"$white"'\]'
 
 source "$HOME/.homesick/repos/homeshick/homeshick.sh"
 source "$HOME/.homesick/repos/homeshick/completions/homeshick-completion.bash"
-source "$HOME/.homesick/repos/waltertamboer/home/.git-prompt.sh"
+source "$HOME/.homesick/repos/dotfiles/home/.git-prompt.sh"
 
 export GIT_PS1_SHOWCOLORHINTS=1
 export GIT_PS1_SHOWDIRTYSTATE=1
