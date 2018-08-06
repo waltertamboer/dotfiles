@@ -1,0 +1,10 @@
+#!/bin/bash
+
+CONTAINER_NAME="${PWD##*/}"
+
+if [ "$1" != "" ]; then
+    CONTAINER_NAME="$1"
+fi
+
+docker run --rm --name $CONTAINER_NAME -it -v $(pwd):/data chesszebra/ng serve --host 0.0.0.0 --public-host $CONTAINER_NAME.docker
+
