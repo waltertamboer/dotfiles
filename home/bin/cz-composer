@@ -1,0 +1,11 @@
+#!/bin/bash
+
+docker run --rm -it \
+	-e SSH_AUTH_SOCK=/ssh-agent \
+	-v $SSH_AUTH_SOCK:/ssh-agent \
+	-v $(pwd):/data \
+	-v $HOME/.composer:/home/php/.composer \
+	-v $HOME/.ssh:/home/php/.ssh/ \
+	chesszebra/composer \
+	$*
+

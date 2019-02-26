@@ -1,0 +1,11 @@
+#!/bin/bash
+
+CONTAINER_NAME="${PWD##*/}"
+
+if [ "$1" != "" ]; then
+    CONTAINER_NAME="$1"
+fi
+
+NGROK_CONTAINER_NAME="ngrok.$CONTAINER_NAME"
+
+docker run --rm -it --name "$NGROK_CONTAINER_NAME" --network chesszebra --link $CONTAINER_NAME -v $(pwd):/data chesszebra/ngrok ngrok http $CONTAINER_NAME:80

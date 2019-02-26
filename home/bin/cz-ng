@@ -1,0 +1,4 @@
+#!/bin/bash
+
+docker run --rm -it -v ~/.gitconfig:/home/node/.gitconfig -v ~/.gitignore-global:/home/node/.gitignore-global -v $(pwd):/data chesszebra/ng $*
+

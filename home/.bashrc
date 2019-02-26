@@ -34,7 +34,7 @@ function start_agent {
     /usr/bin/ssh-agent | sed 's/^echo/#echo/' > "${SSH_ENV}"
     chmod 600 "${SSH_ENV}"
     . "${SSH_ENV}" > /dev/null
-    /usr/bin/ssh-add;
+#    /usr/bin/ssh-add;
 }
 
 if [ -f "${SSH_ENV}" ]; then
@@ -46,19 +46,6 @@ if [ -f "${SSH_ENV}" ]; then
 else
     start_agent;
 fi
-
-# When NVM is installed, we load it.
-[ -s "$HOME/.nvm/nvm.sh" ] && . "$HOME/.nvm/nvm.sh"
-[[ -r $NVM_DIR/bash_completion ]] && . $NVM_DIR/bash_completion
-
-# Add Composer to the path
-PATH=$PATH:/home/tamboer/.composer/vendor/bin/
-export PATH
-
-# Initialize phpbrew if it is installed
-export PHPBREW_SET_PROMPT=1
-export PHPBREW_RC_ENABLE=1
-[ -f "$HOME/.phpbrew/bashrc" ] && source "$HOME/.phpbrew/bashrc"
 
 # Add Android Studio to the path
 PATH=$PATH:/opt/android-studio/bin/
@@ -72,3 +59,6 @@ export PATH
 # Java Home
 export JAVA_HOME="/etc/alternatives/java_sdk"
 
+
+# added by travis gem
+[ -f /home/travis/.travis/travis.sh ] && source /home/travis/.travis/travis.sh

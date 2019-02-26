@@ -1,0 +1,45 @@
+#!/bin/bash
+
+# References:
+# - 
+# - https://unix.stackexchange.com/questions/330366/how-can-i-run-a-graphical-application-in-a-container-under-wayland
+# - https://unix.stackexchange.com/questions/202891/how-to-know-whether-wayland-or-x11-is-being-used
+
+if [ "$XDG_SESSION_TYPE" == "x11" ]; then
+    xhost +SI:localuser:root # Airgeddon needs root...
+
+    docker run --rm -it \
+        --name airgeddon \
+        --net=host \
+        --privileged \
+        -p 3000:3000 \
+        -v "$HOME/.airgeddon":/root \
+        -v $(pwd):/io \
+        -e DISPLAY=$(env | grep DISPLAY | awk -F "=" '{print $2}') \
+        -e AIRGEDDON_BASIC_COLORS=true \
+        -e AIRGEDDON_SKIP_INTRO=true \
+        -e AIRGEDDON_AUTO_UPDATE=false \
+        -e AIRGEDDON_5GHZ_ENABLED=true \
+        v1s1t0r1sh3r3/airgeddon \
+        $*
+fi
+
+if [ "$XDG_SESSION_TYPE" == "wayland" ]; then
+    docker run --rm -it \
+        --name airgeddon \
+        --net=host \
+        --privileged \
+        -p 3000:3000 \
+        -v "$HOME/.airgeddon":/root \
+        -v $(pwd):/io \
+        -v $XDG_RUNTIME_DIR/$WAYLAND_DISPLAY:/tmp/$WAYLAND_DISPLAY  \
+        -e XDG_RUNTIME_DIR=/tmp \
+        -e WAYLAND_DISPLAY=$WAYLAND_DISPLAY \
+        -e AIRGEDDON_BASIC_COLORS=true \
+        -e AIRGEDDON_SKIP_INTRO=true \
+        -e AIRGEDDON_AUTO_UPDATE=false \
+        -e AIRGEDDON_5GHZ_ENABLED=true \
+        v1s1t0r1sh3r3/airgeddon \
+        $*
+fi
+
